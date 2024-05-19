@@ -1,5 +1,5 @@
 
-simple shell script 
+simple shell script for test on container something like docker or anything....
 
 ```
 ./netword_recon.sh
