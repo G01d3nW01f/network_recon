@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#clear
+clear
 
 RED='\033[31m'
 GREEN='\033[32m'
@@ -30,7 +30,7 @@ echo ""
 echo -e "${GREEN}[+]Network Status for ESTABLISHE${BLUE}"
 echo " "
 netstat -antuln | grep ESTABLISHE
-echo  -e "${YELLOW}"
+echo ""
 
 ports=($(netstat -antuln | grep ESTABLISHED | awk '{print $4}' | awk -F ':' '{print $NF}' | uniq))
 
@@ -41,7 +41,15 @@ done
 
 echo ""
 
-echo -e "${GREEN}[+]Connected Host Information${BLUE}"
+
+if ! command -v whois &> /dev/null
+then
+    echo -e "${RESET}"
+    exit 1
+fi
+
+
+echo -e "${RED}[+]Connected Host Information${BLUE}"
 echo ""
 
 hosts=($(netstat -antuln | grep ESTABLISHED | awk {'print $5'} | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}\b'))
@@ -57,4 +65,5 @@ for host in "${hosts[@]}"; do
 	echo $host && whois $host | grep -i orgname
 	echo ""
 done
+
 
